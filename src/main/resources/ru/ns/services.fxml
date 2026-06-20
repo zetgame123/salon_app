@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ru.ns.controller.ServiceController">
+
+    <padding>
+        <Insets top="10" right="10"
+                bottom="10" left="10"/>
+    </padding>
+
+    <center>
+        <TableView fx:id="historyTable">
+
+            <columns>
+
+                <TableColumn fx:id="surnameColumn"
+                             text="Фамилия"
+                             prefWidth="100"/>
+
+                <TableColumn fx:id="nameColumn"
+                             text="Имя"
+                             prefWidth="100"/>
+
+                <TableColumn fx:id="haircutColumn"
+                             text="Стрижка"
+                             prefWidth="120"/>
+
+                <TableColumn fx:id="branchColumn"
+                             text="Филиал"
+                             prefWidth="100"/>
+
+                <TableColumn fx:id="dateColumn"
+                             text="Дата"
+                             prefWidth="130"/>
+
+                <TableColumn fx:id="costColumn"
+                             text="Стоимость"
+                             prefWidth="90"/>
+
+                <TableColumn fx:id="discountColumn"
+                             text="Скидка"
+                             prefWidth="70"/>
+
+            </columns>
+
+        </TableView>
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER">
+
+            <Button text="Добавить"
+                    onAction="#addService"/>
+
+            <Button fx:id="editButton"
+                    text="Изменить"
+                    onAction="#editService"/>
+
+            <Button fx:id="deleteButton"
+                    text="Удалить"
+                    onAction="#deleteService"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

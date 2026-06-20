@@ -102,6 +102,30 @@ public class MainController {
     }
 
     @FXML
+    private void openServices() {
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/services.fxml"));
+
+            Stage stage = new Stage();
+
+            stage.setScene(
+                    new Scene(loader.load()));
+
+            stage.setTitle("Услуги");
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void openProfile() {
 
         try {

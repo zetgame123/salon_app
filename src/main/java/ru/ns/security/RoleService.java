@@ -10,6 +10,14 @@ public class RoleService {
         return Session.isAuthorized();
     }
 
+    public static boolean canEditServices() {
+        return Session.isAdmin();
+    }
+
+    public static boolean canDeleteServices() {
+        return Session.isAdmin();
+    }
+
     public static boolean canDeleteClients() {
         return Session.isAdmin();
     }
