@@ -1,6 +1,6 @@
 package ru.ns;
 
-import database.DatabaseManager;
+import ru.ns.database.DatabaseManager;
 
 public class Main {
 
