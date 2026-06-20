@@ -69,4 +69,35 @@ public class LoginController {
         }
     }
 
+    @FXML
+    private void openRegister() {
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/register.fxml"));
+
+            Stage stage = new Stage();
+
+            stage.setScene(
+                    new Scene(loader.load()));
+
+            stage.setTitle("Регистрация");
+
+            stage.show();
+
+            Stage current =
+                    (Stage) loginField
+                            .getScene()
+                            .getWindow();
+
+            current.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

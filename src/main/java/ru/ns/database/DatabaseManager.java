@@ -1,30 +1,29 @@
 package ru.ns.database;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DatabaseManager {
 
     private static DatabaseManager instance;
     private Connection connection;
 
-    // параметры подключения
-    private static final String URL =
-            "jdbc:mysql://localhost:3306/salon";
-
-    private static final String USER =
-            "salon_app";
-
-    private static final String PASSWORD =
-            "555666";
-
     private DatabaseManager() {
         try {
+            Properties properties = loadProperties();
+
+            String url = properties.getProperty("db.url");
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+
             connection = DriverManager.getConnection(
-                    URL,
-                    USER,
-                    PASSWORD
+                    url,
+                    user,
+                    password
             );
 
             System.out.println("Подключение к БД успешно.");
@@ -35,6 +34,31 @@ public class DatabaseManager {
                     e
             );
         }
+    }
+
+    private Properties loadProperties() {
+
+        Properties properties = new Properties();
+
+        try (InputStream input = getClass()
+                .getClassLoader()
+                .getResourceAsStream("database.properties")) {
+
+            if (input == null) {
+                throw new RuntimeException(
+                        "Не найден файл database.properties");
+            }
+
+            properties.load(input);
+
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "Ошибка чтения database.properties",
+                    e
+            );
+        }
+
+        return properties;
     }
 
     public static DatabaseManager getInstance() {

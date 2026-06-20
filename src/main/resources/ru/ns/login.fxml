@@ -27,6 +27,9 @@
     <Button text="Войти"
             onAction="#login"/>
 
+    <Button text="Регистрация"
+            onAction="#openRegister"/>
+
     <Label fx:id="messageLabel"/>
 
 </VBox>

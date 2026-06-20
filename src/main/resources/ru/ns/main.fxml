@@ -21,7 +21,8 @@
     <Label fx:id="roleLabel"/>
 
     <Button fx:id="clientsButton"
-            text="Клиенты"/>
+            text="Клиенты"
+            onAction="#openClients"/>
 
     <Button fx:id="servicesButton"
             text="Услуги"/>
@@ -32,8 +33,9 @@
     <Button fx:id="usersButton"
             text="Пользователи"/>
 
+    <Button text="Мой профиль"
+            onAction="#openProfile"/>
+
     <Button text="Выход"
             onAction="#logout"/>
-    <Button text="Клиенты"
-            onAction="#openClients"/>
 </VBox>

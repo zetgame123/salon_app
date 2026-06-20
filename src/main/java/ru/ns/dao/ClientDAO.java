@@ -24,7 +24,7 @@ public class ClientDAO {
         String sql = """
                 SELECT *
                 FROM clients
-                ORDER BY last_name
+                ORDER BY surname, name
                 """;
 
         try (PreparedStatement ps =
@@ -33,25 +33,7 @@ public class ClientDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-
-                Client client = new Client();
-
-                client.setIdClient(
-                        rs.getInt("id_client"));
-
-                client.setFirstName(
-                        rs.getString("first_name"));
-
-                client.setLastName(
-                        rs.getString("last_name"));
-
-                client.setPhone(
-                        rs.getString("phone"));
-
-                client.setRegular(
-                        rs.getBoolean("is_regular"));
-
-                clients.add(client);
+                clients.add(mapRow(rs));
             }
 
         } catch (SQLException e) {
@@ -65,24 +47,18 @@ public class ClientDAO {
 
         String sql = """
                 INSERT INTO clients
-                (first_name, last_name, phone, is_regular)
-                VALUES (?, ?, ?, ?)
+                (surname, name, patronymic, phone, regular_client)
+                VALUES (?, ?, ?, ?, ?)
                 """;
 
         try (PreparedStatement ps =
                      connection.prepareStatement(sql)) {
 
-            ps.setString(1,
-                    client.getFirstName());
-
-            ps.setString(2,
-                    client.getLastName());
-
-            ps.setString(3,
-                    client.getPhone());
-
-            ps.setBoolean(4,
-                    client.isRegular());
+            ps.setString(1, client.getSurname());
+            ps.setString(2, client.getName());
+            ps.setString(3, client.getPatronymic());
+            ps.setString(4, client.getPhone());
+            ps.setBoolean(5, client.isRegularClient());
 
             return ps.executeUpdate() > 0;
 
@@ -97,30 +73,23 @@ public class ClientDAO {
 
         String sql = """
                 UPDATE clients
-                SET first_name = ?,
-                    last_name = ?,
+                SET surname = ?,
+                    name = ?,
+                    patronymic = ?,
                     phone = ?,
-                    is_regular = ?
+                    regular_client = ?
                 WHERE id_client = ?
                 """;
 
         try (PreparedStatement ps =
                      connection.prepareStatement(sql)) {
 
-            ps.setString(1,
-                    client.getFirstName());
-
-            ps.setString(2,
-                    client.getLastName());
-
-            ps.setString(3,
-                    client.getPhone());
-
-            ps.setBoolean(4,
-                    client.isRegular());
-
-            ps.setInt(5,
-                    client.getIdClient());
+            ps.setString(1, client.getSurname());
+            ps.setString(2, client.getName());
+            ps.setString(3, client.getPatronymic());
+            ps.setString(4, client.getPhone());
+            ps.setBoolean(5, client.isRegularClient());
+            ps.setInt(6, client.getIdClient());
 
             return ps.executeUpdate() > 0;
 
@@ -150,5 +119,19 @@ public class ClientDAO {
         }
 
         return false;
+    }
+
+    private Client mapRow(ResultSet rs) throws SQLException {
+
+        Client client = new Client();
+
+        client.setIdClient(rs.getInt("id_client"));
+        client.setSurname(rs.getString("surname"));
+        client.setName(rs.getString("name"));
+        client.setPatronymic(rs.getString("patronymic"));
+        client.setPhone(rs.getString("phone"));
+        client.setRegularClient(rs.getBoolean("regular_client"));
+
+        return client;
     }
 }

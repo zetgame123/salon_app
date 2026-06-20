@@ -4,7 +4,7 @@ import ru.ns.database.DatabaseManager;
 import ru.ns.model.User;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class UserDAO {
 
@@ -16,6 +16,7 @@ public class UserDAO {
                         .getInstance()
                         .getConnection();
     }
+
     public User findByLogin(String login) {
 
         String sql =
@@ -35,42 +36,7 @@ public class UserDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-
-                User user = new User();
-
-                user.setIdUser(
-                        rs.getInt("id_user"));
-
-                user.setIdRole(
-                        rs.getInt("id_role"));
-
-                user.setLogin(
-                        rs.getString("login"));
-
-                user.setPhone(
-                        rs.getString("phone"));
-
-                user.setEmail(
-                        rs.getString("email"));
-
-                user.setPasswordHash(
-                        rs.getString(
-                                "password_hash"));
-
-                user.setRoleName(
-                        rs.getString(
-                                "role_name"));
-
-                Date date =
-                        rs.getDate(
-                                "registration_date");
-
-                if (date != null) {
-                    user.setRegistrationDate(
-                            date.toLocalDate());
-                }
-
-                return user;
+                return mapRow(rs);
             }
 
         } catch (SQLException e) {
@@ -79,6 +45,7 @@ public class UserDAO {
 
         return null;
     }
+
     public boolean loginExists(String login) {
 
         String sql =
@@ -103,6 +70,7 @@ public class UserDAO {
 
         return false;
     }
+
     public boolean save(User user) {
 
         String sql =
@@ -122,30 +90,15 @@ public class UserDAO {
         try (PreparedStatement ps =
                      connection.prepareStatement(sql)) {
 
-            ps.setInt(
-                    1,
-                    user.getIdRole());
-
-            ps.setString(
-                    2,
-                    user.getLogin());
-
-            ps.setString(
-                    3,
-                    user.getPhone());
-
-            ps.setDate(
+            ps.setInt(1, user.getIdRole());
+            ps.setString(2, user.getLogin());
+            ps.setString(3, user.getPhone());
+            ps.setTimestamp(
                     4,
-                    Date.valueOf(
+                    Timestamp.valueOf(
                             user.getRegistrationDate()));
-
-            ps.setString(
-                    5,
-                    user.getEmail());
-
-            ps.setString(
-                    6,
-                    user.getPasswordHash());
+            ps.setString(5, user.getEmail());
+            ps.setString(6, user.getPasswordHash());
 
             return ps.executeUpdate() > 0;
 
@@ -155,6 +108,7 @@ public class UserDAO {
 
         return false;
     }
+
     public boolean update(User user) {
 
         String sql =
@@ -168,17 +122,9 @@ public class UserDAO {
         try (PreparedStatement ps =
                      connection.prepareStatement(sql)) {
 
-            ps.setString(
-                    1,
-                    user.getPhone());
-
-            ps.setString(
-                    2,
-                    user.getEmail());
-
-            ps.setInt(
-                    3,
-                    user.getIdUser());
+            ps.setString(1, user.getPhone());
+            ps.setString(2, user.getEmail());
+            ps.setInt(3, user.getIdUser());
 
             return ps.executeUpdate() > 0;
 
@@ -188,6 +134,7 @@ public class UserDAO {
 
         return false;
     }
+
     public boolean emailExists(String email) {
 
         String sql = """
@@ -211,6 +158,35 @@ public class UserDAO {
 
         return false;
     }
+
+    public boolean emailExistsForOtherUser(
+            String email,
+            int userId) {
+
+        String sql = """
+            SELECT id_user
+            FROM users
+            WHERE email = ?
+              AND id_user <> ?
+            """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.setInt(2, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public User findById(int id) {
 
         String sql = """
@@ -229,25 +205,7 @@ public class UserDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-
-                User user = new User();
-
-                user.setIdUser(rs.getInt("id_user"));
-                user.setIdRole(rs.getInt("id_role"));
-                user.setLogin(rs.getString("login"));
-                user.setPhone(rs.getString("phone"));
-                user.setEmail(rs.getString("email"));
-                user.setPasswordHash(rs.getString("password_hash"));
-                user.setRoleName(rs.getString("role_name"));
-
-                Date date = rs.getDate("registration_date");
-
-                if (date != null) {
-                    user.setRegistrationDate(
-                            date.toLocalDate());
-                }
-
-                return user;
+                return mapRow(rs);
             }
 
         } catch (SQLException e) {
@@ -257,5 +215,26 @@ public class UserDAO {
         return null;
     }
 
+    private User mapRow(ResultSet rs) throws SQLException {
 
+        User user = new User();
+
+        user.setIdUser(rs.getInt("id_user"));
+        user.setIdRole(rs.getInt("id_role"));
+        user.setLogin(rs.getString("login"));
+        user.setPhone(rs.getString("phone"));
+        user.setEmail(rs.getString("email"));
+        user.setPasswordHash(rs.getString("password_hash"));
+        user.setRoleName(rs.getString("role_name"));
+
+        Timestamp timestamp =
+                rs.getTimestamp("registration_date");
+
+        if (timestamp != null) {
+            user.setRegistrationDate(
+                    timestamp.toLocalDateTime());
+        }
+
+        return user;
+    }
 }

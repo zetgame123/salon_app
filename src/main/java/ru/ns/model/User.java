@@ -1,6 +1,6 @@
 package ru.ns.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class User {
 
@@ -9,7 +9,7 @@ public class User {
     private String roleName;
     private String login;
     private String phone;
-    private LocalDate registrationDate;
+    private LocalDateTime registrationDate;
     private String email;
     private String passwordHash;
 
@@ -17,7 +17,7 @@ public class User {
     }
 
     public User(int idUser, int idRole, String login,
-                String phone, LocalDate registrationDate,
+                String phone, LocalDateTime registrationDate,
                 String email, String passwordHash) {
         this.idUser = idUser;
         this.idRole = idRole;
@@ -68,11 +68,11 @@ public class User {
         this.phone = phone;
     }
 
-    public LocalDate getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 

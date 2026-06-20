@@ -17,16 +17,19 @@
 
             <columns>
 
-                <TableColumn fx:id="lastNameColumn"
+                <TableColumn fx:id="surnameColumn"
                              text="Фамилия"/>
 
-                <TableColumn fx:id="firstNameColumn"
+                <TableColumn fx:id="nameColumn"
                              text="Имя"/>
+
+                <TableColumn fx:id="patronymicColumn"
+                             text="Отчество"/>
 
                 <TableColumn fx:id="phoneColumn"
                              text="Телефон"/>
 
-                <TableColumn fx:id="regularColumn"
+                <TableColumn fx:id="regularClientColumn"
                              text="Постоянный"/>
 
             </columns>

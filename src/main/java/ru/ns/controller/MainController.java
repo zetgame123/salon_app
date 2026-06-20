@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import ru.ns.security.AuthService;
 import ru.ns.security.RoleService;
 import ru.ns.security.Session;
 
@@ -22,6 +23,9 @@ public class MainController {
 
     @FXML
     private Button pricesButton;
+
+    private final AuthService authService =
+            new AuthService();
 
     @FXML
     public void initialize() {
@@ -43,7 +47,35 @@ public class MainController {
 
     @FXML
     private void logout() {
-        Session.logout();
+
+        authService.logout();
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/login.fxml"));
+
+            Stage loginStage = new Stage();
+
+            loginStage.setScene(
+                    new Scene(loader.load()));
+
+            loginStage.setTitle("Авторизация");
+
+            loginStage.show();
+
+            Stage current =
+                    (Stage) userLabel
+                            .getScene()
+                            .getWindow();
+
+            current.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     private void openClients() {
@@ -61,6 +93,30 @@ public class MainController {
                     new Scene(loader.load()));
 
             stage.setTitle("Клиенты");
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openProfile() {
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/profile.fxml"));
+
+            Stage stage = new Stage();
+
+            stage.setScene(
+                    new Scene(loader.load()));
+
+            stage.setTitle("Мой профиль");
 
             stage.show();
 

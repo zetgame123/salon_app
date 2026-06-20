@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10"
+      alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.ns.controller.ProfileController">
+
+    <padding>
+        <Insets top="20"
+                right="20"
+                bottom="20"
+                left="20"/>
+    </padding>
+
+    <Label text="Мой профиль"/>
+
+    <Label fx:id="loginLabel"/>
+
+    <TextField fx:id="phoneField"
+               promptText="Телефон"/>
+
+    <TextField fx:id="emailField"
+               promptText="Email"/>
+
+    <HBox spacing="10"
+          alignment="CENTER">
+
+        <Button text="Сохранить"
+                onAction="#save"/>
+
+        <Button text="Закрыть"
+                onAction="#close"/>
+
+    </HBox>
+
+    <Label fx:id="messageLabel"/>
+
+</VBox>

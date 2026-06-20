@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10"
+      alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.ns.controller.RegisterController">
+
+    <padding>
+        <Insets top="20"
+                right="20"
+                bottom="20"
+                left="20"/>
+    </padding>
+
+    <Label text="Регистрация"/>
+
+    <TextField fx:id="loginField"
+               promptText="Логин"/>
+
+    <TextField fx:id="phoneField"
+               promptText="Телефон"/>
+
+    <TextField fx:id="emailField"
+               promptText="Email"/>
+
+    <PasswordField fx:id="passwordField"
+                   promptText="Пароль"/>
+
+    <PasswordField fx:id="confirmPasswordField"
+                   promptText="Подтверждение пароля"/>
+
+    <HBox spacing="10"
+          alignment="CENTER">
+
+        <Button text="Зарегистрироваться"
+                onAction="#register"/>
+
+        <Button text="Назад"
+                onAction="#goBack"/>
+
+    </HBox>
+
+    <Label fx:id="messageLabel"/>
+
+</VBox>
