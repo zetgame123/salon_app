@@ -32,6 +32,10 @@
             text="Прайс"
             onAction="#openPrices"/>
 
+    <Button fx:id="branchesButton"
+            text="Филиалы"
+            onAction="#openBranches"/>
+
     <Button fx:id="usersButton"
             text="Пользователи"
             onAction="#openUsers"/>

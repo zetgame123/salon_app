@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июн 20 2026 г., 16:51
+-- Время создания: Июн 20 2026 г., 20:58
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -59,6 +59,16 @@ CREATE TABLE `haircut_types` (
   `name` varchar(100) NOT NULL,
   `gender` enum('Мужской','Женский','Унисекс') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `haircut_types`
+--
+
+INSERT INTO `haircut_types` (`id_haircut_type`, `name`, `gender`) VALUES
+(1, 'Мужская стрижка', 'Мужской'),
+(2, 'Женская стрижка', 'Женский'),
+(3, 'Детская стрижка', 'Унисекс'),
+(4, 'Кроп', 'Мужской');
 
 -- --------------------------------------------------------
 
@@ -126,6 +136,12 @@ CREATE TRIGGER `trg_services_after_insert` AFTER INSERT ON `services` FOR EACH R
         SET regular_client = TRUE
         WHERE id_client = NEW.id_client;
     END IF;
+    
+    IF service_count < 4 THEN
+        UPDATE clients
+        SET regular_client = FALSE
+        WHERE id_client = NEW.id_client;
+    END IF;
 
 END
 $$
@@ -134,6 +150,7 @@ DELIMITER $$
 CREATE TRIGGER `trg_services_before_insert` BEFORE INSERT ON `services` FOR EACH ROW BEGIN
     DECLARE client_regular BOOLEAN;
     DECLARE haircut_price DECIMAL(8,2);
+    DECLARE service_count INT;
 
     SELECT regular_client
     INTO client_regular
@@ -145,7 +162,13 @@ CREATE TRIGGER `trg_services_before_insert` BEFORE INSERT ON `services` FOR EACH
     FROM prices
     WHERE id_price = NEW.id_price;
 
-    IF client_regular = TRUE THEN
+    SELECT COUNT(*)
+    INTO service_count
+    FROM services
+    WHERE id_client = NEW.id_client;
+
+    -- Скидка: постоянный клиент И уже >= 4 услуг
+    IF client_regular = TRUE AND service_count >= 4 THEN
         SET NEW.discount_applied = TRUE;
         SET NEW.total_cost = ROUND(haircut_price * 0.97, 2);
     ELSE
@@ -264,25 +287,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `id_branch` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_branch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id_client` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_client` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `haircut_types`
 --
 ALTER TABLE `haircut_types`
-  MODIFY `id_haircut_type` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_haircut_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `prices`
 --
 ALTER TABLE `prices`
-  MODIFY `id_price` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_price` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -294,13 +317,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблицы `services`
 --
 ALTER TABLE `services`
-  MODIFY `id_service` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_service` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

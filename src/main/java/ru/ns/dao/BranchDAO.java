@@ -46,6 +46,74 @@ public class BranchDAO {
         return branches;
     }
 
+    public boolean save(Branch branch) {
+
+        String sql = """
+                INSERT INTO branches (name, address)
+                VALUES (?, ?)
+                """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setString(1, branch.getName());
+            ps.setString(2, branch.getAddress());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean update(Branch branch) {
+
+        String sql = """
+                UPDATE branches
+                SET name = ?,
+                    address = ?
+                WHERE id_branch = ?
+                """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setString(1, branch.getName());
+            ps.setString(2, branch.getAddress());
+            ps.setInt(3, branch.getIdBranch());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean delete(int id) {
+
+        String sql = """
+                DELETE FROM branches
+                WHERE id_branch = ?
+                """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     private Branch mapRow(ResultSet rs) throws SQLException {
 
         Branch branch = new Branch();

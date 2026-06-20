@@ -33,4 +33,8 @@ public class RoleService {
     public static boolean canManageUsers() {
         return Session.isAdmin();
     }
+
+    public static boolean canManageBranches() {
+        return Session.isAdmin();
+    }
 }

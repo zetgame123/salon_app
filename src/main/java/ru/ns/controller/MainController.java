@@ -22,6 +22,9 @@ public class MainController {
     private Button usersButton;
 
     @FXML
+    private Button branchesButton;
+
+    @FXML
     private Button pricesButton;
 
     private final AuthService authService =
@@ -40,6 +43,9 @@ public class MainController {
 
         usersButton.setVisible(
                 RoleService.canManageUsers());
+
+        branchesButton.setVisible(
+                RoleService.canManageBranches());
 
         pricesButton.setVisible(
                 RoleService.canViewPrices());
@@ -165,6 +171,30 @@ public class MainController {
                     new Scene(loader.load()));
 
             stage.setTitle("Пользователи");
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openBranches() {
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/branches.fxml"));
+
+            Stage stage = new Stage();
+
+            stage.setScene(
+                    new Scene(loader.load()));
+
+            stage.setTitle("Филиалы");
 
             stage.show();
 
