@@ -205,15 +205,11 @@ public class ServiceController {
 
         List<Client> clients = clientDAO.findAll();
         List<Branch> branches = branchDAO.findAll();
-        List<PriceListItem> prices =
-                priceDAO.findAllWithHaircut();
 
-        if (clients.isEmpty()
-                || branches.isEmpty()
-                || prices.isEmpty()) {
+        if (clients.isEmpty() || branches.isEmpty()) {
             showError(
                     "Заполните справочники: " +
-                            "клиенты, филиалы и прайс");
+                            "клиенты и филиалы");
             return false;
         }
 
@@ -240,11 +236,33 @@ public class ServiceController {
                                 branches));
 
         ComboBox<PriceListItem> priceCombo =
-                new ComboBox<>(
-                        FXCollections.observableArrayList(
-                                prices));
+                new ComboBox<>();
 
         DatePicker datePicker = new DatePicker();
+
+        if (service.getServiceDate() != null) {
+            datePicker.setValue(
+                    service.getServiceDate()
+                            .toLocalDate());
+        } else {
+            datePicker.setValue(LocalDate.now());
+        }
+
+        refreshPriceCombo(
+                priceCombo,
+                datePicker.getValue(),
+                service);
+
+        datePicker.valueProperty().addListener(
+                (obs, oldDate, newDate) -> {
+
+                    if (newDate != null) {
+                        refreshPriceCombo(
+                                priceCombo,
+                                newDate,
+                                service);
+                    }
+                });
 
         TextArea wishesArea = new TextArea();
 
@@ -266,20 +284,10 @@ public class ServiceController {
 
         selectClient(clientCombo, clients, service);
         selectBranch(branchCombo, branches, service);
-        selectPrice(priceCombo, prices, service);
 
         if (service.getIdService() == 0) {
             setDefaultIfEmpty(clientCombo, clients);
             setDefaultIfEmpty(branchCombo, branches);
-            setDefaultIfEmpty(priceCombo, prices);
-        }
-
-        if (service.getServiceDate() != null) {
-            datePicker.setValue(
-                    service.getServiceDate()
-                            .toLocalDate());
-        } else {
-            datePicker.setValue(LocalDate.now());
         }
 
         grid.add(new Label("Клиент:"), 0, 0);
@@ -309,7 +317,16 @@ public class ServiceController {
                 || branchCombo.getValue() == null
                 || priceCombo.getValue() == null
                 || datePicker.getValue() == null) {
-            showError("Заполните все обязательные поля");
+
+            if (priceCombo.getItems().isEmpty()) {
+                showError(
+                        "На выбранную дату нет " +
+                                "актуальных цен в прайсе");
+            } else {
+                showError(
+                        "Заполните все обязательные поля");
+            }
+
             return false;
         }
 
@@ -335,6 +352,38 @@ public class ServiceController {
                 wishes.isEmpty() ? null : wishes);
 
         return true;
+    }
+
+    private void refreshPriceCombo(
+            ComboBox<PriceListItem> priceCombo,
+            LocalDate onDate,
+            Service service) {
+
+        List<PriceListItem> prices =
+                priceDAO.findActualWithHaircut(onDate);
+
+        PriceListItem selected =
+                priceCombo.getValue();
+
+        priceCombo.setItems(
+                FXCollections.observableArrayList(
+                        prices));
+
+        if (selected != null) {
+            prices.stream()
+                    .filter(p -> p.getIdPrice()
+                            == selected.getIdPrice())
+                    .findFirst()
+                    .ifPresent(priceCombo::setValue);
+        }
+
+        if (priceCombo.getValue() == null) {
+            selectPrice(priceCombo, prices, service);
+
+            if (service.getIdService() == 0) {
+                setDefaultIfEmpty(priceCombo, prices);
+            }
+        }
     }
 
     private <T> void setDefaultIfEmpty(

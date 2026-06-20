@@ -26,6 +26,10 @@ public class RoleService {
         return Session.isAdmin();
     }
 
+    public static boolean canViewPrices() {
+        return Session.isAuthorized();
+    }
+
     public static boolean canManageUsers() {
         return Session.isAdmin();
     }

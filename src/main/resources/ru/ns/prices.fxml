@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ru.ns.controller.PriceController">
+
+    <padding>
+        <Insets top="10" right="10"
+                bottom="10" left="10"/>
+    </padding>
+
+    <center>
+        <TableView fx:id="priceTable">
+
+            <columns>
+
+                <TableColumn fx:id="haircutColumn"
+                             text="Стрижка"
+                             prefWidth="150"/>
+
+                <TableColumn fx:id="genderColumn"
+                             text="Пол"
+                             prefWidth="90"/>
+
+                <TableColumn fx:id="startDateColumn"
+                             text="Дата начала"
+                             prefWidth="110"/>
+
+                <TableColumn fx:id="priceColumn"
+                             text="Цена"
+                             prefWidth="90"/>
+
+            </columns>
+
+        </TableView>
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER">
+
+            <Button fx:id="addButton"
+                    text="Добавить"
+                    onAction="#addPrice"/>
+
+            <Button fx:id="editButton"
+                    text="Изменить"
+                    onAction="#editPrice"/>
+
+            <Button fx:id="deleteButton"
+                    text="Удалить"
+                    onAction="#deletePrice"/>
+
+            <Button fx:id="addTypeButton"
+                    text="Тип стрижки"
+                    onAction="#addHaircutType"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

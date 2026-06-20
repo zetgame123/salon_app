@@ -29,7 +29,8 @@
             onAction="#openServices"/>
 
     <Button fx:id="pricesButton"
-            text="Прайс"/>
+            text="Прайс"
+            onAction="#openPrices"/>
 
     <Button fx:id="usersButton"
             text="Пользователи"/>

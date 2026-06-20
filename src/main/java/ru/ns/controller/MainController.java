@@ -42,7 +42,7 @@ public class MainController {
                 RoleService.canManageUsers());
 
         pricesButton.setVisible(
-                RoleService.canEditPrices());
+                RoleService.canViewPrices());
     }
 
     @FXML
@@ -117,6 +117,30 @@ public class MainController {
                     new Scene(loader.load()));
 
             stage.setTitle("Услуги");
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openPrices() {
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/prices.fxml"));
+
+            Stage stage = new Stage();
+
+            stage.setScene(
+                    new Scene(loader.load()));
+
+            stage.setTitle("Прайс");
 
             stage.show();
 

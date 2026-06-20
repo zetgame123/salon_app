@@ -6,9 +6,27 @@ import java.time.LocalDate;
 public class PriceListItem {
 
     private int idPrice;
+    private int idHaircutType;
     private String haircutName;
+    private String gender;
     private BigDecimal price;
     private LocalDate startDate;
+
+    public int getIdHaircutType() {
+        return idHaircutType;
+    }
+
+    public void setIdHaircutType(int idHaircutType) {
+        this.idHaircutType = idHaircutType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public int getIdPrice() {
         return idPrice;
