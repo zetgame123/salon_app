@@ -18,6 +18,16 @@ public class Session {
         return currentUser != null;
     }
 
+    public static boolean isAdmin() {
+        return currentUser != null &&
+                "ADMIN".equals(currentUser.getRoleName());
+    }
+
+    public static boolean isUser() {
+        return currentUser != null &&
+                "USER".equals(currentUser.getRoleName());
+    }
+
     public static void logout() {
         currentUser = null;
     }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ru.ns.controller.ClientController">
+
+    <padding>
+        <Insets top="10" right="10"
+                bottom="10" left="10"/>
+    </padding>
+
+    <center>
+        <TableView fx:id="clientTable">
+
+            <columns>
+
+                <TableColumn fx:id="lastNameColumn"
+                             text="Фамилия"/>
+
+                <TableColumn fx:id="firstNameColumn"
+                             text="Имя"/>
+
+                <TableColumn fx:id="phoneColumn"
+                             text="Телефон"/>
+
+                <TableColumn fx:id="regularColumn"
+                             text="Постоянный"/>
+
+            </columns>
+
+        </TableView>
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER">
+
+            <Button text="Добавить"
+                    onAction="#addClient"/>
+
+            <Button text="Изменить"
+                    onAction="#editClient"/>
+
+            <Button fx:id="deleteButton"
+                    text="Удалить"
+                    onAction="#deleteClient"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

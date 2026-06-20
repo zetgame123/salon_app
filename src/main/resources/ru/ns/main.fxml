@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10"
+      alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.ns.controller.MainController">
+
+    <padding>
+        <Insets top="20"
+                right="20"
+                bottom="20"
+                left="20"/>
+    </padding>
+
+    <Label fx:id="userLabel"/>
+
+    <Label fx:id="roleLabel"/>
+
+    <Button fx:id="clientsButton"
+            text="Клиенты"/>
+
+    <Button fx:id="servicesButton"
+            text="Услуги"/>
+
+    <Button fx:id="pricesButton"
+            text="Прайс"/>
+
+    <Button fx:id="usersButton"
+            text="Пользователи"/>
+
+    <Button text="Выход"
+            onAction="#logout"/>
+    <Button text="Клиенты"
+            onAction="#openClients"/>
+</VBox>
