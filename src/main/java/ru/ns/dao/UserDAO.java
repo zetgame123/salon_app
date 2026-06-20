@@ -188,7 +188,74 @@ public class UserDAO {
 
         return false;
     }
-    
+    public boolean emailExists(String email) {
+
+        String sql = """
+            SELECT id_user
+            FROM users
+            WHERE email = ?
+            """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public User findById(int id) {
+
+        String sql = """
+            SELECT u.*, r.role_name
+            FROM users u
+            JOIN roles r
+                ON u.id_role = r.id_role
+            WHERE u.id_user = ?
+            """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                User user = new User();
+
+                user.setIdUser(rs.getInt("id_user"));
+                user.setIdRole(rs.getInt("id_role"));
+                user.setLogin(rs.getString("login"));
+                user.setPhone(rs.getString("phone"));
+                user.setEmail(rs.getString("email"));
+                user.setPasswordHash(rs.getString("password_hash"));
+                user.setRoleName(rs.getString("role_name"));
+
+                Date date = rs.getDate("registration_date");
+
+                if (date != null) {
+                    user.setRegistrationDate(
+                            date.toLocalDate());
+                }
+
+                return user;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
 }
