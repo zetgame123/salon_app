@@ -6,6 +6,7 @@ public class User {
 
     private int idUser;
     private int idRole;
+    private String roleName;
     private String login;
     private String phone;
     private LocalDate registrationDate;
@@ -49,6 +50,14 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getPhone() {
