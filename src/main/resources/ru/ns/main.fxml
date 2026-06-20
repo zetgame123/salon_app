@@ -33,7 +33,8 @@
             onAction="#openPrices"/>
 
     <Button fx:id="usersButton"
-            text="Пользователи"/>
+            text="Пользователи"
+            onAction="#openUsers"/>
 
     <Button text="Мой профиль"
             onAction="#openProfile"/>

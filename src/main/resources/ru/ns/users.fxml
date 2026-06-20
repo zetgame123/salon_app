@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ru.ns.controller.UserController">
+
+    <padding>
+        <Insets top="10" right="10"
+                bottom="10" left="10"/>
+    </padding>
+
+    <center>
+        <TableView fx:id="userTable">
+
+            <columns>
+
+                <TableColumn fx:id="loginColumn"
+                             text="Логин"
+                             prefWidth="100"/>
+
+                <TableColumn fx:id="emailColumn"
+                             text="Email"
+                             prefWidth="150"/>
+
+                <TableColumn fx:id="phoneColumn"
+                             text="Телефон"
+                             prefWidth="120"/>
+
+                <TableColumn fx:id="roleColumn"
+                             text="Роль"
+                             prefWidth="80"/>
+
+                <TableColumn fx:id="dateColumn"
+                             text="Регистрация"
+                             prefWidth="140"/>
+
+            </columns>
+
+        </TableView>
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER">
+
+            <Button text="Добавить"
+                    onAction="#addUser"/>
+
+            <Button text="Изменить"
+                    onAction="#editUser"/>
+
+            <Button text="Удалить"
+                    onAction="#deleteUser"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

@@ -150,6 +150,30 @@ public class MainController {
     }
 
     @FXML
+    private void openUsers() {
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/ru/ns/users.fxml"));
+
+            Stage stage = new Stage();
+
+            stage.setScene(
+                    new Scene(loader.load()));
+
+            stage.setTitle("Пользователи");
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void openProfile() {
 
         try {

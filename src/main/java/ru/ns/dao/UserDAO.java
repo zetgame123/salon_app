@@ -5,6 +5,8 @@ import ru.ns.model.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -213,6 +215,82 @@ public class UserDAO {
         }
 
         return null;
+    }
+
+    public List<User> findAll() {
+
+        List<User> users = new ArrayList<>();
+
+        String sql = """
+            SELECT u.*, r.role_name
+            FROM users u
+            JOIN roles r
+                ON u.id_role = r.id_role
+            ORDER BY u.login
+            """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                users.add(mapRow(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    public boolean updateByAdmin(User user) {
+
+        String sql = """
+            UPDATE users
+            SET id_role = ?,
+                phone = ?,
+                email = ?
+            WHERE id_user = ?
+            """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setInt(1, user.getIdRole());
+            ps.setString(2, user.getPhone());
+            ps.setString(3, user.getEmail());
+            ps.setInt(4, user.getIdUser());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean delete(int idUser) {
+
+        String sql = """
+            DELETE FROM users
+            WHERE id_user = ?
+            """;
+
+        try (PreparedStatement ps =
+                     connection.prepareStatement(sql)) {
+
+            ps.setInt(1, idUser);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private User mapRow(ResultSet rs) throws SQLException {
