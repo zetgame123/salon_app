@@ -2,5 +2,5 @@
 # и положите рядом с JAR-файлом приложения.
 
 db.url=jdbc:mysql://localhost:3306/salon
-db.user=salon_app
-db.password=555666
+db.user=root
+db.password=

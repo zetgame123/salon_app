@@ -19,15 +19,7 @@ CREATE DATABASE salon
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_general_ci;
 
-CREATE USER 'salon_app'@'localhost' IDENTIFIED BY '555666';
-
-GRANT ALL PRIVILEGES ON salon.* TO 'salon_app'@'localhost';
-
-FLUSH PRIVILEGES;
 ```
-
-> Пароль `555666` совпадает с настройками по умолчанию в `database.properties`.  
-> При смене пароля обновите и файл конфигурации приложения (см. раздел 2).
 
 ### 1.2. Импорт схемы
 
@@ -74,8 +66,8 @@ INSERT INTO prices (id_haircut_type, start_date, price) VALUES
 
 ```properties
 db.url=jdbc:mysql://localhost:3306/salon
-db.user=salon_app
-db.password=555666
+db.user=root
+db.password=
 ```
 
 | Параметр      | Описание                                      |
