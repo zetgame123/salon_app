@@ -55,172 +55,71 @@ public class MainController {
     private void logout() {
 
         authService.logout();
-
-        try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ru/ns/login.fxml"));
-
-            Stage loginStage = new Stage();
-
-            loginStage.setScene(
-                    new Scene(loader.load()));
-
-            loginStage.setTitle("Авторизация");
-
-            loginStage.show();
-
-            Stage current =
-                    (Stage) userLabel
-                            .getScene()
-                            .getWindow();
-
-            current.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openWindow("/ru/ns/login.fxml", "Авторизация", true);
     }
+
     @FXML
     private void openClients() {
-
-        try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ru/ns/clients.fxml"));
-
-            Stage stage = new Stage();
-
-            stage.setScene(
-                    new Scene(loader.load()));
-
-            stage.setTitle("Клиенты");
-
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openWindow("/ru/ns/clients.fxml", "Клиенты");
     }
 
     @FXML
     private void openServices() {
-
-        try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ru/ns/services.fxml"));
-
-            Stage stage = new Stage();
-
-            stage.setScene(
-                    new Scene(loader.load()));
-
-            stage.setTitle("Услуги");
-
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openWindow("/ru/ns/services.fxml", "Услуги");
     }
 
     @FXML
     private void openPrices() {
-
-        try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ru/ns/prices.fxml"));
-
-            Stage stage = new Stage();
-
-            stage.setScene(
-                    new Scene(loader.load()));
-
-            stage.setTitle("Прайс");
-
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openWindow("/ru/ns/prices.fxml", "Прайс");
     }
 
     @FXML
     private void openUsers() {
-
-        try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ru/ns/users.fxml"));
-
-            Stage stage = new Stage();
-
-            stage.setScene(
-                    new Scene(loader.load()));
-
-            stage.setTitle("Пользователи");
-
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openWindow("/ru/ns/users.fxml", "Пользователи");
     }
 
     @FXML
     private void openBranches() {
-
-        try {
-
-            FXMLLoader loader =
-                    new FXMLLoader(
-                            getClass().getResource(
-                                    "/ru/ns/branches.fxml"));
-
-            Stage stage = new Stage();
-
-            stage.setScene(
-                    new Scene(loader.load()));
-
-            stage.setTitle("Филиалы");
-
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        openWindow("/ru/ns/branches.fxml", "Филиалы");
     }
 
     @FXML
     private void openProfile() {
+        openWindow("/ru/ns/profile.fxml", "Мой профиль");
+    }
+
+    private void openWindow(String fxmlResource, String title) {
+        openWindow(fxmlResource, title, false);
+    }
+
+    private void openWindow(
+            String fxmlResource,
+            String title,
+            boolean closeCurrent) {
 
         try {
 
             FXMLLoader loader =
                     new FXMLLoader(
                             getClass().getResource(
-                                    "/ru/ns/profile.fxml"));
+                                    fxmlResource));
 
             Stage stage = new Stage();
 
             stage.setScene(
                     new Scene(loader.load()));
 
-            stage.setTitle("Мой профиль");
-
+            stage.setTitle(title);
             stage.show();
+
+            if (closeCurrent) {
+                Stage current =
+                        (Stage) userLabel
+                                .getScene()
+                                .getWindow();
+
+                current.close();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
